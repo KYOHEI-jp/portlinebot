@@ -21,6 +21,7 @@ class LineWebhookController extends Controller
 
 		// 署名のチェック
 		$signature = $request->headers->get(HTTPHeader::LINE_SIGNATURE);
+
 		if (!SignatureValidator::validateSignature($request->getContent(), $lineChannelSecret, $signature)) {
 			// TODO 不正アクセス
 			return;
@@ -35,8 +36,9 @@ class LineWebhookController extends Controller
 
 			foreach ($events as $event) {
 				// ハローと応答する
+				$message = $event->getText();
 				$replyToken = $event->getReplyToken();
-				$textMessage = new TextMessageBuilder("ハロー");
+				$textMessage = new TextMessageBuilder($message);
 				$lineBot->replyMessage($replyToken, $textMessage);
 			}
 		} catch (Exception $e) {
