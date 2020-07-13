@@ -13,7 +13,6 @@ use Exception;
 
 class LineWebhookController extends Controller
 {
-
 	public function webhook (Request $request)
 	{
 		$lineAccessToken = env('LINE_ACCESS_TOKEN', "");
@@ -35,7 +34,7 @@ class LineWebhookController extends Controller
 			$events = $lineBot->parseEventRequest($request->getContent(), $signature);
 
 			foreach ($events as $event) {
-				// ハローと応答する
+				//文字列を返す
 				$message = $event->getText();
 				$replyToken = $event->getReplyToken();
 				$textMessage = new TextMessageBuilder($message);
@@ -45,7 +44,6 @@ class LineWebhookController extends Controller
 			// TODO 例外
 			return;
 		}
-
 		return;
 	}
 }
